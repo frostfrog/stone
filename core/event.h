@@ -2,7 +2,7 @@
 #define __core_event_h__
 
 enum KnownEvent {
-
+	kEventMax
 };
 
 

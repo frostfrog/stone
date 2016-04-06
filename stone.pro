@@ -9,3 +9,10 @@ HEADERS += \
     core/types.h \
     core/weapon.h \
     core/filter.h
+
+SOURCES += \
+    core/card.cpp \
+    core/weapon.cpp \
+    core/minion.cpp \
+    core/spell.cpp \
+    core/test-main.cpp

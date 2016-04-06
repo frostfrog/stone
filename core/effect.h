@@ -4,6 +4,8 @@
 #include "event.h"
 
 class Filter;
+class Player;
+class Card;
 class Effect {
 public:
 	Effect();
@@ -13,13 +15,14 @@ public:
 	Effect *after(KnownEvent event, Filter *filter);
 	Effect *on(KnownEvent event, Filter *filter);
 	Effect *has(KnownEvent event, Filter *filter);
-	virtual void trigger(Player *who, Card *what) = 0;
+	virtual void trigger(Card *target) = 0;
 
 	void unregister();
 	virtual bool needTarget() = 0;
 };
 
-
+// expected client code:
+//    effects.push_back(DealDamage(1, RandomEnemy())->after(kMinionSummoning, YourMinion()));
 Effect *DealDamage(int damage, Filter *filter);
 Effect *DrawCard(int number, Filter *filter);
 Effect *Destroy(int number, Filter *filter);

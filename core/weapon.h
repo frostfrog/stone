@@ -7,8 +7,10 @@
 class Weapon : public Card {
 public:
 	Weapon(int id, int cost, int attack, int durability);
+	~Weapon();
 public:
-	virtual void play(Card *target, int pos);
+	virtual void play(Card *, int) override;
+	virtual void equip();
 
 protected:
 	int _attack;
