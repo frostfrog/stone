@@ -1,17 +1,18 @@
 #include "minion.h"
 #include "effect.h"
 #include "player.h"
+#include "engine.h"
 
-Minion::Minion(int id, int cost, int attack, int health) : Card(id, cost), _attack(attack), _health(health)
+Minion::Minion(int id, int cost, int attack, int health) :
+	Card(id, cost), _battlecry(nullptr),
+	_attack(attack), _health(health), _hp(0), _attack_times_this_turn(0), _just_summon(0)
 {
 
 }
 
 Minion::~Minion()
 {
-	for (Effect *e : _battlecry) {
-		delete e;
-	}
+	delete _battlecry;
 
 	for (Effect *e : _deathrattle) {
 		delete e;
@@ -20,14 +21,23 @@ Minion::~Minion()
 
 void Minion::play(Card *target, int slot)
 {
-	this->owner()->summon(this, slot);
+	owner()->engine()->on(kMinionSummoning, this);
+
+	_hp = _health;
+	_just_summon = 1;
+
+	summon();
+
+	owner()->summon(this, slot);
+
 	battlecry(target);
-	// fire summon event
+
+	owner()->engine()->after(kMinionSummoning, this);
 }
 
 void Minion::summon()
 {
-	this->_hp = this->_health;
+
 }
 
 void Minion::beginTurn()
@@ -40,7 +50,23 @@ void Minion::beginTurn()
 
 void Minion::battlecry(Card *target)
 {
-	for (Effect *e : _battlecry) {
-		e->trigger(target);
+	if (_combo && owner()->isComboStat()) {
+		_combo->trigger(target);
+
+		return;
 	}
+
+	if (_battlecry) {
+		_battlecry->trigger(target);
+	}
+}
+
+bool Minion::isDead()
+{
+	return _hp <= 0;
+}
+
+bool Minion::canPlay(int resource)
+{
+	return Card::canPlay(resource) && owner()->minionCount() < 0;
 }

@@ -3,28 +3,56 @@
 
 #include <vector>
 #include <set>
+#include <inttypes.h>
 
 class Card;
 class Weapon;
 class Minion;
+class Spell;
+class Engine;
 class Player {
+public:
+	Player(Engine *_engine);
+	~Player();
 public:
 	void draw();
 	bool isLost();
 
 	void beginTurn();
 	void endTurn();
-	void equip(Weapon *weapon);
+
+	void playCard(Card *hand_card, Card *target, int slot = -1);
+
 	void summon(Minion *minion, int slot);
-	void cast(Card *spell);
+	void equip(Weapon *weapon);
+
+	size_t minionCount();
+	void setOpponent(Player *opp);
+	Player *opp();
+
+	bool isComboStat();
+
+	Engine *engine();
+
+	int availableResource() {
+		return _resource - _overloaded_resource;
+	}
 
 private:
 	std::vector<Card *> _hand_card;
-	std::vector<Card *> _deck_card;
-	std::vector<Card *> _minions;
-	Card *_hero;
-	Card *_hero_power;
-	Card *_weapon;
+	std::vector<Card *> _deck_cards;
+	std::vector<Minion *> _minions;
+	Minion *_hero;
+	Spell *_hero_power;
+	Weapon *_weapon;
+	Engine *_engine;
+	Player *_opp;
+
+	int _resource;
+	int _max_resource;
+	int _overloading_resource;
+	int _overloaded_resource;
+	int _card_played_this_turn;
 };
 
 #endif

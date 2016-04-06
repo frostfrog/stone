@@ -1,7 +1,7 @@
 #include "card.h"
 #include "effect.h"
 
-Card::Card(int id, int cost) : _id(id), _cost(cost)
+Card::Card(int id, int cost) : _id(id), _cost(cost), _combo(nullptr), _owner(nullptr)
 {
 
 }

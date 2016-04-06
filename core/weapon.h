@@ -1,5 +1,5 @@
-#ifndef __core_minion_h__
-#define __core_minion_h__
+#ifndef __core_weapon_h__
+#define __core_weapon_h__
 
 #include "card.h"
 #include <vector>
@@ -12,10 +12,12 @@ public:
 	virtual void play(Card *, int) override;
 	virtual void equip();
 
+	void battlecry(Card *target);
+
 protected:
 	int _attack;
 	int _durability;
-	std::vector<Effect *> _battlecry;
+	Effect * _battlecry;
 	std::vector<Effect *> _deathrattle;
 };
 

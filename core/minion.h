@@ -17,9 +17,12 @@ public:
 	void attack(Minion *target);
 	void takeDamange(int damange);
 	void battlecry(Card *target);
+	bool isDead();
+
+	bool canPlay(int resource);
 
 protected:
-	std::vector<Effect *> _battlecry;
+	Effect * _battlecry;
 	std::vector<Effect *> _deathrattle;
 	int _attack;
 	int _health;

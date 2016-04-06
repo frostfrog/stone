@@ -2,7 +2,14 @@
 #define __core_event_h__
 
 enum KnownEvent {
-	kEventMax
+	kCardDrawing,
+	kCardPlaying,
+	kTurnBegining,
+	kTurnEnding,
+	kMinionSummoning,
+	kWeaponEquiping,
+	kSpellCasting,
+	kEventMax,
 };
 
 
